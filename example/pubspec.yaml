@@ -32,9 +32,9 @@ dependencies:
   enough_text_editor:
     path: ../
   enough_platform_widgets:
-    # git:
-    #   url: https://github.com/Enough-Software/enough_platform_widgets.git      
-    path: ../../enough_platform_widgets
+    git:
+      url: https://github.com/Enough-Software/enough_platform_widgets.git      
+    # path: ../../enough_platform_widgets
 
 
   # The following adds the Cupertino Icons font to your application.

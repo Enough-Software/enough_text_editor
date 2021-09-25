@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const PlatformApp(
       title: 'enough_text_editor Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const EditorPage(),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      home: EditorPage(),
     );
   }
 }
