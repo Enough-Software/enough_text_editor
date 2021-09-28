@@ -18,6 +18,22 @@ class BaseFormatButtons extends StatefulWidget {
 class _BaseFormatButtonsState extends State<BaseFormatButtons> {
   final _isSelected = [false, false, false, false];
 
+  late TextEditorApi _api;
+
+  @override
+  void didChangeDependencies() {
+    final api = TextEditorApiWidget.of(context)!.editorApi;
+    _api = api;
+    api.addFontListener(_onFontChanged);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _api.removeFontListener(_onFontChanged);
+    super.dispose();
+  }
+
   void _onFontChanged(UnicodeFont font) {
     if (mounted) {
       setState(() {
@@ -30,17 +46,8 @@ class _BaseFormatButtonsState extends State<BaseFormatButtons> {
   }
 
   @override
-  void dispose() {
-    final api = TextEditorApiWidget.of(context)?.editorApi;
-    api?.removeFontListener(_onFontChanged);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final api = TextEditorApiWidget.of(context)!.editorApi;
-    api.addFontListener(_onFontChanged);
-
+    final api = _api;
     return PlatformToggleButtons(
       children: [
         Icon(CommonPlatformIcons.bold),

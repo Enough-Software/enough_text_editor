@@ -17,11 +17,19 @@ class FontFamilyDropdown extends StatefulWidget {
 
 class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
   UnicodeFont? _currentFont;
+  late TextEditorApi _api;
+
+  @override
+  void didChangeDependencies() {
+    final api = TextEditorApiWidget.of(context)!.editorApi;
+    _api = api;
+    api.addFontListener(_onFontChanged);
+    super.didChangeDependencies();
+  }
 
   @override
   void dispose() {
-    final api = TextEditorApiWidget.of(context)?.editorApi;
-    api?.removeFontListener(_onFontChanged);
+    _api.removeFontListener(_onFontChanged);
     super.dispose();
   }
 
@@ -35,8 +43,6 @@ class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final api = TextEditorApiWidget.of(context)!.editorApi;
-    api.addFontListener(_onFontChanged);
     const selectedTextStyle = TextStyle(fontSize: 12);
     return PlatformDropdownButton<UnicodeFont>(
       value: _currentFont,
@@ -45,7 +51,7 @@ class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
           setState(() {
             _currentFont = value;
           });
-          api.setFont(value);
+          _api.setFont(value);
         }
       },
       selectedItemBuilder: (context) => UnicodeFont.values
