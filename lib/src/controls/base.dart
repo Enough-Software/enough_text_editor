@@ -5,13 +5,13 @@ import '../editor.dart';
 import '../editor_api.dart';
 import 'controls.dart';
 
-/// Use the `HtmlEditorApiWidget` to provide the `HtmlEditorApi` to widgets further down the widget tree.
+/// Use the `TextEditorApiWidget` to provide the `HtmlEditorApi` to widgets further down the widget tree.
 ///
 /// Example:
 /// ```dart
 ///  @override
 ///  Widget build(BuildContext context) {
-///     return HtmlEditorApiWidget(
+///     return TextEditorApiWidget(
 ///      editorApi: _editorApi,
 ///      child: YourCustomWidgetHere(),
 ///     );
@@ -19,7 +19,7 @@ import 'controls.dart';
 /// ```
 /// Now in any other widgets below you can access the API in this way:
 /// ```dart
-///  final api = HtmlEditorApiWidget.of(context)!.editorApi;
+///  final api = TextEditorApiWidget.of(context)!.editorApi;
 /// ```
 class TextEditorApiWidget extends InheritedWidget {
   final TextEditorApi editorApi;
@@ -74,6 +74,13 @@ class _TextEditorControlsState extends State<TextEditorControls> {
   @override
   void initState() {
     super.initState();
+    _initApi();
+  }
+
+  @override
+  void didUpdateWidget(covariant TextEditorControls oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _isInitialized = false;
     _initApi();
   }
 

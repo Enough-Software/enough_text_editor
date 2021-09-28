@@ -1,6 +1,7 @@
 import 'package:enough_platform_widgets/enough_platform_widgets.dart';
 import 'package:flutter/material.dart';
 
+import '../editor_api.dart';
 import 'base.dart';
 import 'package:enough_ascii_art/enough_ascii_art.dart';
 
@@ -15,12 +16,21 @@ class FontFamilyDropdown extends StatefulWidget {
 }
 
 class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
-  UnicodeFont? currentFont;
+  UnicodeFont? _currentFont;
+
+  @override
+  void dispose() {
+    final api = TextEditorApiWidget.of(context)?.editorApi;
+    api?.removeFontListener(_onFontChanged);
+    super.dispose();
+  }
 
   void _onFontChanged(UnicodeFont? font) {
-    setState(() {
-      currentFont = font;
-    });
+    if (mounted) {
+      setState(() {
+        _currentFont = font;
+      });
+    }
   }
 
   @override
@@ -29,11 +39,11 @@ class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
     api.addFontListener(_onFontChanged);
     const selectedTextStyle = TextStyle(fontSize: 12);
     return PlatformDropdownButton<UnicodeFont>(
-      value: currentFont,
+      value: _currentFont,
       onChanged: (value) {
         if (value != null) {
           setState(() {
-            currentFont = value;
+            _currentFont = value;
           });
           api.setFont(value);
         }

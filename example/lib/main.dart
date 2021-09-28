@@ -83,7 +83,7 @@ class _EditorPageState extends State<EditorPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: PackagedTextEditor(
-                    isSingleLine: _isSingleLine,
+                    maxLines: _isSingleLine ? 1 : null,
                     minLines: _isSingleLine ? null : 3,
                     onCreated: (api) {
                       _editorApi = api;
@@ -96,7 +96,7 @@ class _EditorPageState extends State<EditorPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextEditor(
-                    isSingleLine: _isSingleLine,
+                    maxLines: _isSingleLine ? 1 : null,
                     minLines: _isSingleLine ? null : 3,
                     onCreated: (api) {
                       _editorApi = api;
@@ -161,6 +161,23 @@ class _CustomScrollEditorPageState extends State<CustomScrollEditorPage> {
               ),
             ],
           ),
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: DecoratedPlatformTextField(
+                decoration:
+                    InputDecoration(hintText: 'Recipient (normal TextField)'),
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: TextEditor(
+                decoration: InputDecoration(hintText: 'Subject (TextEditor)'),
+              ),
+            ),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -182,7 +199,7 @@ class _CustomScrollEditorPageState extends State<CustomScrollEditorPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextEditor(
-                isSingleLine: _isSingleLine,
+                maxLines: _isSingleLine ? 1 : null,
                 minLines: _isSingleLine ? null : 3,
                 onCreated: (api) {
                   setState(() {
@@ -190,7 +207,7 @@ class _CustomScrollEditorPageState extends State<CustomScrollEditorPage> {
                   });
                 },
                 initialContent:
-                    '''hello world, here's some plain text for you to edit!''',
+                    '''Lorem ipsum dolor\n\nsit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,\n\nsed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.''',
               ),
             ),
           ),

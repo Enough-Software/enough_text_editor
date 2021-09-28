@@ -1,5 +1,6 @@
 import 'package:enough_ascii_art/enough_ascii_art.dart';
 import 'package:enough_platform_widgets/enough_platform_widgets.dart';
+import 'package:enough_text_editor/enough_text_editor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'base.dart';
@@ -15,15 +16,24 @@ class BaseFormatButtons extends StatefulWidget {
 }
 
 class _BaseFormatButtonsState extends State<BaseFormatButtons> {
-  final isSelected = [false, false, false, false];
+  final _isSelected = [false, false, false, false];
 
   void _onFontChanged(UnicodeFont font) {
-    setState(() {
-      isSelected[0] = font.isBold;
-      isSelected[1] = font.isItalic;
-      isSelected[2] = font.isUnderlined;
-      isSelected[3] = font.isStrikeThrough;
-    });
+    if (mounted) {
+      setState(() {
+        _isSelected[0] = font.isBold;
+        _isSelected[1] = font.isItalic;
+        _isSelected[2] = font.isUnderlined;
+        _isSelected[3] = font.isStrikeThrough;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    final api = TextEditorApiWidget.of(context)?.editorApi;
+    api?.removeFontListener(_onFontChanged);
+    super.dispose();
   }
 
   @override
@@ -54,10 +64,10 @@ class _BaseFormatButtonsState extends State<BaseFormatButtons> {
             break;
         }
         setState(() {
-          isSelected[index] = !isSelected[index];
+          _isSelected[index] = !_isSelected[index];
         });
       },
-      isSelected: isSelected,
+      isSelected: _isSelected,
       cupertinoPadding: const EdgeInsets.symmetric(horizontal: 8.0),
     );
   }

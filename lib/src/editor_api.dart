@@ -12,7 +12,7 @@ import 'package:enough_ascii_art/enough_ascii_art.dart';
 /// Get access to this API either by waiting for the `HtmlEditor.onCreated()` callback or by accessing
 /// the `HtmlEditorState` with a `GlobalKey<HtmlEditorState>`.
 class TextEditorApi {
-  final TextEditorState _editorState;
+  // final TextEditorState _editorState;
   final TextEditingController _controller;
   TextSelection _selection;
   UnicodeFont _currentFont = UnicodeFont.normal;
@@ -21,10 +21,13 @@ class TextEditorApi {
   final _fontListeners = <void Function(UnicodeFont font)>[];
 
   bool _ignoreUpdateCall = false;
+  bool _regainedFocus = false;
 
-  TextEditorApi(TextEditorState state, TextEditingController controller,
-      FocusNode focusNode)
-      : _editorState = state,
+  TextEditorApi(
+    TextEditorState state,
+    TextEditingController controller,
+    FocusNode focusNode,
+  )   : //_editorState = state,
         _controller = controller,
         _focusNode = focusNode,
         _selection = controller.selection,
@@ -37,15 +40,23 @@ class TextEditorApi {
     final selection = _controller.selection;
     // print(
     //     'onUpdated: ignore=$_ignoreUpdateCall focus=${_focusNode.hasFocus} selection: $selection, start=${selection.start}, isCollapsed=${selection.isCollapsed}  font=$_currentFont'); // text=${_controller.text}
-    if (!_focusNode.hasFocus) {
+    if (!_focusNode.hasFocus || selection.baseOffset == -1) {
       return;
     }
     if (_ignoreUpdateCall) {
       _ignoreUpdateCall = false;
       return;
     }
-    _selection = selection;
     final text = _controller.text;
+    if (_regainedFocus) {
+      _regainedFocus = false;
+      if (selection.baseOffset >= text.length - 1) {
+        // print('re-select previous selection');
+        _controller.selection = _selection;
+        return;
+      }
+    }
+    _selection = selection;
     final previousText = _previousText;
     if (text != previousText) {
       _previousText = text;
@@ -94,7 +105,8 @@ class TextEditorApi {
     if (!_focusNode.hasFocus) {
       // print('_onFocusChanged storing ${_controller.selection}');
       _selection = _controller.selection;
-      // } else {
+    } else {
+      _regainedFocus = true;
       //   print('focus: has selection $_selection');
     }
   }
@@ -285,9 +297,7 @@ class TextEditorApi {
 
   void dispose() {
     _controller.removeListener(_onUpdated);
-    _controller.dispose();
     _focusNode.removeListener(_onFocusChanged);
-    _focusNode.dispose();
   }
 
   void _notifyFontChanged(UnicodeFont font) {

@@ -10,7 +10,6 @@ class SliverHeaderTextEditorControls extends StatelessWidget {
   final TextEditorApi? editorApi;
   final Widget? prefix;
   final Widget? suffix;
-  final bool excludeDocumentLevelControls;
 
   const SliverHeaderTextEditorControls({
     Key? key,
@@ -18,7 +17,6 @@ class SliverHeaderTextEditorControls extends StatelessWidget {
     this.editorApi,
     this.prefix,
     this.suffix,
-    this.excludeDocumentLevelControls = false,
   })  : assert(editorKey != null || editorApi != null),
         super(key: key);
 
