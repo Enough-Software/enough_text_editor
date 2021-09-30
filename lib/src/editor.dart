@@ -704,27 +704,37 @@ class FontSelector {
         WidgetsBinding.instance!.window.viewInsets,
         WidgetsBinding.instance!.window.devicePixelRatio);
     final size = MediaQuery.of(context).size;
-    const horizontalPadding = 40.0;
-    const verticalPadding = 10.0;
+    const horizontalPadding = 36.0;
+    const verticalPadding = 8.0;
+    final left = viewInsets.left + horizontalPadding;
+    final top = viewInsets.top + verticalPadding;
+    final width = min(size.width - 2 * horizontalPadding, 200.0);
+    final height =
+        max(size.height - (viewInsets.bottom + 2 * verticalPadding), 200.0);
+    // print(
+    //     'viewInsets: $viewInsets size: $size left: $left top: $top width: $width height: $height');
     return OverlayEntry(
       builder: (context) => GestureDetector(
         onTap: () => callback(null),
         child: Stack(
           children: [
-            Positioned.fill(child: Container(color: const Color(0x09000000))),
+            Positioned.fill(child: Container(color: const Color(0x1C000000))),
             Positioned(
-              left: viewInsets.left + horizontalPadding,
-              top: viewInsets.top + verticalPadding,
-              width: min(size.width - 2 * horizontalPadding, 200.0),
-              bottom: viewInsets.bottom - verticalPadding,
+              left: left,
+              top: top,
+              width: width,
+              height: height,
               child: SingleChildScrollView(
                 child: SafeArea(
-                  child: PlatformMaterial(
-                    elevation: 8.0,
-                    color: PlatformInfo.isCupertino
-                        ? CupertinoTheme.of(context).barBackgroundColor
-                        : Theme.of(context).canvasColor,
-                    child: UnicodeFontSelector(onSelected: callback),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    child: PlatformMaterial(
+                      elevation: 8.0,
+                      color: PlatformInfo.isCupertino
+                          ? CupertinoTheme.of(context).barBackgroundColor
+                          : Theme.of(context).canvasColor,
+                      child: UnicodeFontSelector(onSelected: callback),
+                    ),
                   ),
                 ),
               ),

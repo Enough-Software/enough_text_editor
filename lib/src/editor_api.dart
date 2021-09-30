@@ -50,7 +50,7 @@ class TextEditorApi {
     final text = _controller.text;
     if (_regainedFocus) {
       _regainedFocus = false;
-      if ((_selection.baseOffset != -1) &&
+      if ((_selection.baseOffset > 0) &&
           (selection.baseOffset >= text.length - 1)) {
         // print('re-select previous selection $_selection');
         _controller.selection = _selection;
