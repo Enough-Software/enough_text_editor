@@ -13,7 +13,7 @@ dependencies:
   enough_platform_widgets:
     git:
       url: https://github.com/Enough-Software/enough_platform_widgets.git      
-    # path: ../enough_platform_widgets
+    #path: ../enough_platform_widgets
   enough_ascii_art:
     git:
       url: https://github.com/Enough-Software/enough_ascii_art.git
