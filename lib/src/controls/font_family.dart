@@ -12,7 +12,7 @@ class FontFamilyDropdown extends StatefulWidget {
   const FontFamilyDropdown({Key? key}) : super(key: key);
 
   @override
-  _FontFamilyDropdownState createState() => _FontFamilyDropdownState();
+  State<FontFamilyDropdown> createState() => _FontFamilyDropdownState();
 }
 
 class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
@@ -73,8 +73,8 @@ class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
       items: UnicodeFont.values
           .map(
             (font) => DropdownMenuItem<UnicodeFont>(
-              child: Text(font.encodedName),
               value: font,
+              child: Text(font.encodedName),
             ),
           )
           .toList(),

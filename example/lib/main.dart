@@ -26,7 +26,7 @@ class EditorPage extends StatefulWidget {
   const EditorPage({Key? key}) : super(key: key);
 
   @override
-  _EditorPageState createState() => _EditorPageState();
+  State<EditorPage> createState() => _EditorPageState();
 }
 
 class _EditorPageState extends State<EditorPage> {
@@ -119,7 +119,7 @@ class CustomScrollEditorPage extends StatefulWidget {
   const CustomScrollEditorPage({Key? key}) : super(key: key);
 
   @override
-  _CustomScrollEditorPageState createState() => _CustomScrollEditorPageState();
+  State<CustomScrollEditorPage> createState() => _CustomScrollEditorPageState();
 }
 
 class _CustomScrollEditorPageState extends State<CustomScrollEditorPage> {

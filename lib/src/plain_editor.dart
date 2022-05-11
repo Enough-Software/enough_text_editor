@@ -2,7 +2,6 @@ import 'package:enough_platform_widgets/enough_platform_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 class TextEditor extends StatefulWidget {
@@ -246,8 +245,6 @@ class TextEditor extends StatefulWidget {
   /// The appearance of the keyboard.
   ///
   /// This setting is only honored on iOS devices.
-  ///
-  /// If unset, defaults to the brightness of [ThemeData.primaryColorBrightness].
   final Brightness? keyboardAppearance;
 
   /// {@macro flutter.widgets.editableText.scrollPadding}
@@ -430,7 +427,7 @@ class TextEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TextEditorState createState() => _TextEditorState();
+  State<TextEditor> createState() => _TextEditorState();
 }
 
 class _TextEditorState extends State<TextEditor> {

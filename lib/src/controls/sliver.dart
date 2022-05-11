@@ -42,12 +42,13 @@ class _SliverHeaderTextEditorControlsDelegate
   final Widget? prefix;
   final Widget? suffix;
 
-  _SliverHeaderTextEditorControlsDelegate(
-      {this.editorKey,
-      this.editorApi,
-      this.prefix,
-      this.suffix,
-      this.height = 48});
+  _SliverHeaderTextEditorControlsDelegate({
+    this.editorKey,
+    this.editorApi,
+    this.prefix,
+    this.suffix,
+    this.height = 48,
+  });
 
   @override
   Widget build(context, double shrinkOffset, bool overlapsContent) {

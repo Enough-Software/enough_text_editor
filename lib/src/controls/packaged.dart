@@ -328,8 +328,6 @@ class PackagedTextEditor extends StatefulWidget {
   /// The appearance of the keyboard.
   ///
   /// This setting is only honored on iOS devices.
-  ///
-  /// If unset, defaults to the brightness of [ThemeData.primaryColorBrightness].
   final Brightness? keyboardAppearance;
 
   /// {@macro flutter.widgets.editableText.scrollPadding}
@@ -449,7 +447,7 @@ class PackagedTextEditor extends StatefulWidget {
   /// Should the label be shown at all on cupertino?
   final bool cupertinoShowLabel;
 
-  /// When the label is shown in cupertino, should it be rathered placed on top (instead of before) the input field?
+  /// When the label is shown in cupertino, should it be rather placed on top (instead of before) the input field?
   final bool cupertinoAlignLabelOnTop;
 
   /// When the suffix should be shown on cupertino
@@ -473,7 +471,7 @@ class PackagedTextEditor extends StatefulWidget {
   /// Should the editor show a clear option?
   final bool showClearOption;
 
-  /// The fonts symbol in the default editor seleciton menu items, defaults to `🖋️`
+  /// The fonts symbol in the default editor selection menu items, defaults to `🖋️`
   final String fontSymbol;
 
   @override

@@ -3,7 +3,6 @@ import 'package:enough_platform_widgets/enough_platform_widgets.dart';
 import 'package:enough_text_editor/enough_text_editor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'base.dart';
 
 /// Controls the base format settings bold, italic, underlined and strike through
 ///
@@ -12,7 +11,7 @@ class BaseFormatButtons extends StatefulWidget {
   const BaseFormatButtons({Key? key}) : super(key: key);
 
   @override
-  _BaseFormatButtonsState createState() => _BaseFormatButtonsState();
+  State<BaseFormatButtons> createState() => _BaseFormatButtonsState();
 }
 
 class _BaseFormatButtonsState extends State<BaseFormatButtons> {
@@ -49,12 +48,6 @@ class _BaseFormatButtonsState extends State<BaseFormatButtons> {
   Widget build(BuildContext context) {
     final api = _api;
     return PlatformToggleButtons(
-      children: [
-        Icon(CommonPlatformIcons.bold),
-        Icon(CommonPlatformIcons.italic),
-        Icon(CommonPlatformIcons.underlined),
-        Icon(CommonPlatformIcons.strikethrough),
-      ],
       onPressed: (int index) {
         switch (index) {
           case 0:
@@ -76,6 +69,12 @@ class _BaseFormatButtonsState extends State<BaseFormatButtons> {
       },
       isSelected: _isSelected,
       cupertinoPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+      children: [
+        Icon(CommonPlatformIcons.bold),
+        Icon(CommonPlatformIcons.italic),
+        Icon(CommonPlatformIcons.underlined),
+        Icon(CommonPlatformIcons.strikethrough),
+      ],
     );
   }
 }

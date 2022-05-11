@@ -3,7 +3,6 @@ import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:enough_ascii_art/enough_ascii_art.dart';
 import 'package:enough_platform_widgets/enough_platform_widgets.dart';
-import 'package:enough_platform_widgets/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import 'editor_api.dart';
-import 'package:flutter/widgets.dart';
 
 import 'models.dart';
 
@@ -258,8 +256,6 @@ class TextEditor extends StatefulWidget {
   /// The appearance of the keyboard.
   ///
   /// This setting is only honored on iOS devices.
-  ///
-  /// If unset, defaults to the brightness of [ThemeData.primaryColorBrightness].
   final Brightness? keyboardAppearance;
 
   /// {@macro flutter.widgets.editableText.scrollPadding}
@@ -403,19 +399,27 @@ class TextEditor extends StatefulWidget {
   /// Should the editor show a clear option?
   final bool showClearOption;
 
-  /// The fonts symbol in the default editor seleciton menu items, defaults to `🖋️`
+  /// The fonts symbol in the default editor selection menu items, defaults to `🖋️`
   final String fontSymbol;
 
   /// Creates a new text editor
   ///
-  /// Set the [initialContent] to populate the editor with some existing text
-  /// Set [expands] to let the editor set its height automatically - by default this is `true`.
-  /// Specify the [minHeight] to set a different height than the default `100` pixel.
-  /// Define the [onCreated] `onCreated(EditorApi)` callback to get notified when the API is ready.
-  /// Set [splitBlockquotes] to `false` in case block quotes should not be split when the user adds a newline in one - this defaults to `true`.
-  /// Set [addSystemtSelectionMenuItems] to `false` when you do not want to have the default text selection items enabled.
-  /// Set [addEditorSelectionMenuItems] to `false` when you do not want to have the default text selection items enabled.
-  /// You can define your own custom context / text selection menu entries using [textSelectionMenuItems].
+  /// Set the [initialContent] to populate the editor with some existing text.
+  ///
+  /// Set [expands] to let the editor set its height automatically -
+  /// by default this is `true`.
+  ///
+  /// Define the [onCreated] `onCreated(EditorApi)` callback to get notified
+  /// when the API is ready.
+  ///
+  /// Set [addSystemSelectionMenuItems] to `false` when you do not want to
+  /// have the default text selection items enabled.
+  ///
+  /// Set [addEditorSelectionMenuItems] to `false` when you do not want to
+  /// have the default text selection items enabled.
+  ///
+  /// You can define your own custom context / text selection menu entries
+  /// using [textSelectionMenuItems].
   const TextEditor({
     Key? key,
     this.controller,
@@ -513,7 +517,7 @@ class TextEditorState extends State<TextEditor> {
     _api = TextEditorApi(this, _textEditingController, _focusNode);
     final callback = widget.onCreated;
     if (callback != null) {
-      SchedulerBinding.instance?.addPostFrameCallback((_) => callback(_api));
+      SchedulerBinding.instance.addPostFrameCallback((_) => callback(_api));
     }
   }
 
@@ -701,8 +705,8 @@ class FontSelector {
   static OverlayEntry buildOverlayEntry(
       BuildContext context, Function(UnicodeFont? font) callback) {
     final viewInsets = EdgeInsets.fromWindowPadding(
-        WidgetsBinding.instance!.window.viewInsets,
-        WidgetsBinding.instance!.window.devicePixelRatio);
+        WidgetsBinding.instance.window.viewInsets,
+        WidgetsBinding.instance.window.devicePixelRatio);
     final size = MediaQuery.of(context).size;
     const horizontalPadding = 36.0;
     const verticalPadding = 8.0;
@@ -900,7 +904,6 @@ class PlatformMaterial extends StatelessWidget {
     return PlatformWidget(
       material: (context, platform) => Material(
         key: widgetKey,
-        child: child,
         color: color,
         shadowColor: shadowColor,
         elevation: elevation,
@@ -911,10 +914,11 @@ class PlatformMaterial extends StatelessWidget {
         shape: shape,
         textStyle: textStyle,
         type: type,
+        child: child,
       ),
       cupertino: (context, platform) => CupertinoBar(
-        child: child ?? Container(),
         blurBackground: true,
+        child: child ?? Container(),
       ),
     );
   }
@@ -988,7 +992,7 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
     Offset selectionMidpoint,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
-    ClipboardStatusNotifier clipboardStatus,
+    ClipboardStatusNotifier? clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
     return _CupertinoTextSelectionControlsToolbar(
@@ -1327,7 +1331,7 @@ class _MaterialTextSelectionControls extends MaterialTextSelectionControls {
     Offset selectionMidpoint,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
-    ClipboardStatusNotifier clipboardStatus,
+    ClipboardStatusNotifier? clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
     // super.buildToolbar(context, globalEditableRegion, textLineHeight, selectionMidpoint, endpoints, delegate, clipboardStatus, lastSecondaryTapDownPosition)
@@ -1387,7 +1391,7 @@ class _MaterialTextSelectionToolbar extends StatefulWidget {
   final void Function(PlatformTextSelectionItem item) handler;
   final Offset anchorAbove;
   final Offset anchorBelow;
-  final ClipboardStatusNotifier clipboardStatus;
+  final ClipboardStatusNotifier? clipboardStatus;
   final VoidCallback? handleCopy;
   final VoidCallback? handleCut;
   final VoidCallback? handlePaste;
@@ -1409,25 +1413,25 @@ class _MaterialTextSelectionToolbarState
   @override
   void initState() {
     super.initState();
-    widget.clipboardStatus.addListener(_onChangedClipboardStatus);
-    widget.clipboardStatus.update();
+    widget.clipboardStatus?.addListener(_onChangedClipboardStatus);
+    widget.clipboardStatus?.update();
   }
 
   @override
   void didUpdateWidget(_MaterialTextSelectionToolbar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.clipboardStatus != oldWidget.clipboardStatus) {
-      widget.clipboardStatus.addListener(_onChangedClipboardStatus);
-      oldWidget.clipboardStatus.removeListener(_onChangedClipboardStatus);
+      widget.clipboardStatus?.addListener(_onChangedClipboardStatus);
+      oldWidget.clipboardStatus?.removeListener(_onChangedClipboardStatus);
     }
-    widget.clipboardStatus.update();
+    widget.clipboardStatus?.update();
   }
 
   @override
   void dispose() {
     super.dispose();
-    if (!widget.clipboardStatus.disposed) {
-      widget.clipboardStatus.removeListener(_onChangedClipboardStatus);
+    if (!(widget.clipboardStatus?.disposed ?? true)) {
+      widget.clipboardStatus?.removeListener(_onChangedClipboardStatus);
     }
   }
 
@@ -1437,7 +1441,7 @@ class _MaterialTextSelectionToolbarState
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
 
-    final itemDatas = [
+    final toolbarItems = [
       if (widget.includeStandardEntries) ...{
         if (widget.handleCut != null)
           _TextSelectionToolbarItemData(
@@ -1450,7 +1454,7 @@ class _MaterialTextSelectionToolbarState
             onPressed: widget.handleCopy,
           ),
         if (widget.handlePaste != null &&
-            widget.clipboardStatus.value == ClipboardStatus.pasteable)
+            widget.clipboardStatus?.value == ClipboardStatus.pasteable)
           _TextSelectionToolbarItemData(
             label: localizations.pasteButtonLabel,
             onPressed: widget.handlePaste,
@@ -1473,11 +1477,11 @@ class _MaterialTextSelectionToolbarState
     return TextSelectionToolbar(
       anchorAbove: widget.anchorAbove,
       anchorBelow: widget.anchorBelow,
-      children: itemDatas.map((_TextSelectionToolbarItemData itemData) {
+      children: toolbarItems.map((_TextSelectionToolbarItemData itemData) {
         return TextSelectionToolbarTextButton(
           padding: TextSelectionToolbarTextButton.getPadding(
             childIndex++,
-            itemDatas.length,
+            toolbarItems.length,
           ),
           onPressed: itemData.onPressed,
           child: Text(

@@ -60,11 +60,11 @@ class TextEditorControls extends StatefulWidget {
     this.prefix,
     this.suffix,
   })  : assert(editorApi != null || editorKey != null,
-            'Please define either the editorApi or editorKey pararameter.'),
+            'Please define either the editorApi or editorKey parameter.'),
         super(key: key);
 
   @override
-  _TextEditorControlsState createState() => _TextEditorControlsState();
+  State<TextEditorControls> createState() => _TextEditorControlsState();
 }
 
 class _TextEditorControlsState extends State<TextEditorControls> {
@@ -122,7 +122,7 @@ class _TextEditorControlsState extends State<TextEditorControls> {
     if (key != null) {
       // in init state, the editorKey.currentState is still null,
       // so wait for after the first run
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         final stateApi = key.currentState!.api;
         setState(() {
           _editorApi = stateApi;

@@ -1,8 +1,6 @@
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'editor.dart';
 import 'package:enough_ascii_art/enough_ascii_art.dart';
@@ -257,7 +255,7 @@ class TextEditorApi {
   }
 
   void _addPostFrameCallback(void Function() callback) {
-    SchedulerBinding.instance?.addPostFrameCallback((_) => callback());
+    SchedulerBinding.instance.addPostFrameCallback((_) => callback());
   }
 
   /// Retrieves the edited text as HTML

@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 
 import 'editor_api.dart';
 
