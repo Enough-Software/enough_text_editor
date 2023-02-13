@@ -21,9 +21,11 @@ class PackagedTextEditor extends StatefulWidget {
   /// Creates a new packaged text editor
   ///
   /// Set the [initialContent] to populate the editor with some existing text
+  ///
   /// Set [expands] to let the editor set its height automatically - by default this is `true`.
+  ///
   /// Define the [onCreated] `onCreated(TextEditorApi)` callback to get notified when the API is ready.
-  /// Set [addDefaultSelectionMenuItems] to `false` when you do not want to have the default text selection items enabled.
+  ///
   /// You can define your own custom context / text selection menu entries using [textSelectionMenuItems].
   const PackagedTextEditor({
     Key? key,
@@ -46,7 +48,7 @@ class PackagedTextEditor extends StatefulWidget {
     this.textAlignVertical,
     this.textDirection,
     this.readOnly = false,
-    this.toolbarOptions,
+    this.contextMenuBuilder,
     this.showCursor,
     this.autofocus = false,
     this.obscuringCharacter = '•',
@@ -211,7 +213,7 @@ class PackagedTextEditor extends StatefulWidget {
   /// If not set, select all and paste will default to be enabled. Copy and cut
   /// will be disabled if [obscureText] is true. If [readOnly] is true,
   /// paste and cut will be disabled regardless.
-  final ToolbarOptions? toolbarOptions;
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
 
   /// {@macro flutter.widgets.editableText.showCursor}
   final bool? showCursor;
@@ -531,7 +533,7 @@ class PackagedTextEditorState extends State<PackagedTextEditor> {
           textAlignVertical: widget.textAlignVertical,
           textDirection: widget.textDirection,
           readOnly: widget.readOnly,
-          toolbarOptions: widget.toolbarOptions,
+          contextMenuBuilder: widget.contextMenuBuilder,
           showCursor: widget.showCursor,
           obscuringCharacter: widget.obscuringCharacter,
           smartDashesType: widget.smartDashesType,

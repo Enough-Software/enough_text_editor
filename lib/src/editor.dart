@@ -139,7 +139,7 @@ class TextEditor extends StatefulWidget {
   /// If not set, select all and paste will default to be enabled. Copy and cut
   /// will be disabled if [obscureText] is true. If [readOnly] is true,
   /// paste and cut will be disabled regardless.
-  final ToolbarOptions? toolbarOptions;
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
 
   /// {@macro flutter.widgets.editableText.showCursor}
   final bool? showCursor;
@@ -441,7 +441,7 @@ class TextEditor extends StatefulWidget {
     this.textAlignVertical,
     this.textDirection,
     this.readOnly = false,
-    this.toolbarOptions,
+    this.contextMenuBuilder,
     this.showCursor,
     this.autofocus = false,
     this.obscuringCharacter = '•',
@@ -578,7 +578,7 @@ class TextEditorState extends State<TextEditor> {
       textAlignVertical: widget.textAlignVertical,
       textDirection: widget.textDirection,
       readOnly: widget.readOnly,
-      toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       showCursor: widget.showCursor,
       obscuringCharacter: widget.obscuringCharacter,
       smartDashesType: widget.smartDashesType,

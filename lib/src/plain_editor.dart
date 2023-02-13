@@ -4,7 +4,65 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
+/// The text editor allows editing text with additional unicode formatting
 class TextEditor extends StatefulWidget {
+  /// Creates a new [TextEditor]
+  const TextEditor({
+    Key? key,
+    this.controller,
+    this.focusNode,
+    this.decoration = const InputDecoration(),
+    this.keyboardType,
+    this.textInputAction,
+    this.textCapitalization = TextCapitalization.none,
+    this.style,
+    this.strutStyle,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
+    this.textDirection,
+    this.readOnly = false,
+    this.contextMenuBuilder,
+    this.showCursor,
+    this.autofocus = false,
+    this.obscuringCharacter = '•',
+    this.obscureText = false,
+    this.autocorrect = true,
+    this.smartDashesType,
+    this.smartQuotesType,
+    this.enableSuggestions = true,
+    this.maxLines = 1,
+    this.minLines,
+    this.expands = false,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.onChanged,
+    this.onEditingComplete,
+    this.onSubmitted,
+    this.onAppPrivateCommand,
+    this.inputFormatters,
+    this.enabled,
+    this.cursorWidth = 2.0,
+    this.cursorHeight,
+    this.cursorRadius,
+    this.cursorColor,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.keyboardAppearance,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.enableInteractiveSelection = true,
+    this.selectionControls,
+    this.onTap,
+    this.mouseCursor,
+    this.buildCounter,
+    this.scrollController,
+    this.scrollPhysics,
+    this.autofillHints,
+    this.restorationId,
+    this.cupertinoShowLabel = true,
+    this.cupertinoAlignLabelOnTop = false,
+  }) : super(key: key);
+
   /// Controls the text being edited.
   ///
   /// If null, this widget will create its own [TextEditingController].
@@ -128,7 +186,7 @@ class TextEditor extends StatefulWidget {
   /// If not set, select all and paste will default to be enabled. Copy and cut
   /// will be disabled if [obscureText] is true. If [readOnly] is true,
   /// paste and cut will be disabled regardless.
-  final ToolbarOptions? toolbarOptions;
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
 
   /// {@macro flutter.widgets.editableText.showCursor}
   final bool? showCursor;
@@ -367,64 +425,8 @@ class TextEditor extends StatefulWidget {
   /// Should the label be shown at all on cupertino?
   final bool cupertinoShowLabel;
 
-  /// When the label is shown in cupertino, should it be rathered placed on top (instead of before) the input field?
+  /// When the label is shown in cupertino, should it be rather placed on top (instead of before) the input field?
   final bool cupertinoAlignLabelOnTop;
-
-  const TextEditor({
-    Key? key,
-    this.controller,
-    this.focusNode,
-    this.decoration = const InputDecoration(),
-    this.keyboardType,
-    this.textInputAction,
-    this.textCapitalization = TextCapitalization.none,
-    this.style,
-    this.strutStyle,
-    this.textAlign = TextAlign.start,
-    this.textAlignVertical,
-    this.textDirection,
-    this.readOnly = false,
-    this.toolbarOptions,
-    this.showCursor,
-    this.autofocus = false,
-    this.obscuringCharacter = '•',
-    this.obscureText = false,
-    this.autocorrect = true,
-    this.smartDashesType,
-    this.smartQuotesType,
-    this.enableSuggestions = true,
-    this.maxLines = 1,
-    this.minLines,
-    this.expands = false,
-    this.maxLength,
-    this.maxLengthEnforcement,
-    this.onChanged,
-    this.onEditingComplete,
-    this.onSubmitted,
-    this.onAppPrivateCommand,
-    this.inputFormatters,
-    this.enabled,
-    this.cursorWidth = 2.0,
-    this.cursorHeight,
-    this.cursorRadius,
-    this.cursorColor,
-    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
-    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
-    this.keyboardAppearance,
-    this.scrollPadding = const EdgeInsets.all(20.0),
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.enableInteractiveSelection = true,
-    this.selectionControls,
-    this.onTap,
-    this.mouseCursor,
-    this.buildCounter,
-    this.scrollController,
-    this.scrollPhysics,
-    this.autofillHints,
-    this.restorationId,
-    this.cupertinoShowLabel = true,
-    this.cupertinoAlignLabelOnTop = false,
-  }) : super(key: key);
 
   @override
   State<TextEditor> createState() => _TextEditorState();
@@ -454,7 +456,7 @@ class _TextEditorState extends State<TextEditor> {
       textAlignVertical: widget.textAlignVertical,
       textDirection: widget.textDirection,
       readOnly: widget.readOnly,
-      toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       showCursor: widget.showCursor,
       obscuringCharacter: widget.obscuringCharacter,
       smartDashesType: widget.smartDashesType,
