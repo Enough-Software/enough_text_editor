@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 import 'editor_api.dart';
 
@@ -992,17 +993,17 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
     Offset selectionMidpoint,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
-    ClipboardStatusNotifier? clipboardStatus,
+    ValueListenable<ClipboardStatus>? clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
     return _CupertinoTextSelectionControlsToolbar(
-      clipboardStatus: clipboardStatus,
+      clipboardStatus: ClipboardStatusNotifier(value: clipboardStatus!.value),
       endpoints: endpoints,
       globalEditableRegion: globalEditableRegion,
       handleCut:
-          canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
+          canCut(delegate) ? () => handleCut(delegate) : null,
       handleCopy: canCopy(delegate)
-          ? () => handleCopy(delegate, clipboardStatus)
+          ? () => handleCopy(delegate)
           : null,
       handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
       handleSelectAll:
@@ -1216,7 +1217,7 @@ class _CupertinoTextSelectionControlsToolbarState
     super.dispose();
     // When used in an Overlay, this can be disposed after its creator has
     // already disposed _clipboardStatus.
-    if (_clipboardStatus != null && !_clipboardStatus!.disposed) {
+    if (_clipboardStatus != null ){//&& !_clipboardStatus!.value.disposed) {
       _clipboardStatus!.removeListener(_onChangedClipboardStatus);
       if (widget.clipboardStatus == null) {
         _clipboardStatus!.dispose();
@@ -1331,7 +1332,7 @@ class _MaterialTextSelectionControls extends MaterialTextSelectionControls {
     Offset selectionMidpoint,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
-    ClipboardStatusNotifier? clipboardStatus,
+    ValueListenable<ClipboardStatus>? clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
     // super.buildToolbar(context, globalEditableRegion, textLineHeight, selectionMidpoint, endpoints, delegate, clipboardStatus, lastSecondaryTapDownPosition)
@@ -1357,12 +1358,12 @@ class _MaterialTextSelectionControls extends MaterialTextSelectionControls {
       customEntries: customEntries,
       anchorAbove: anchorAbove,
       anchorBelow: anchorBelow,
-      clipboardStatus: clipboardStatus,
+      clipboardStatus: ClipboardStatusNotifier(value: clipboardStatus!.value),
       handleCopy: canCopy(delegate)
-          ? () => handleCopy(delegate, clipboardStatus)
+          ? () => handleCopy(delegate)
           : null,
       handleCut:
-          canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
+          canCut(delegate) ? () => handleCut(delegate) : null,
       handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
       handleSelectAll:
           canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
@@ -1430,9 +1431,9 @@ class _MaterialTextSelectionToolbarState
   @override
   void dispose() {
     super.dispose();
-    if (!(widget.clipboardStatus?.disposed ?? true)) {
+    //if (!(widget.clipboardStatus?.disposed ?? true)) {
       widget.clipboardStatus?.removeListener(_onChangedClipboardStatus);
-    }
+    //}
   }
 
   @override
