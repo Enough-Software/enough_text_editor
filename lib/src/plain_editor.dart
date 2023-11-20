@@ -1,8 +1,9 @@
+import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+
 import 'package:enough_platform_widgets/enough_platform_widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 /// The text editor allows editing text with additional unicode formatting
 class TextEditor extends StatefulWidget {
@@ -40,7 +41,7 @@ class TextEditor extends StatefulWidget {
     this.onSubmitted,
     this.onAppPrivateCommand,
     this.inputFormatters,
-    this.enabled,
+    this.enabled = true,
     this.cursorWidth = 2.0,
     this.cursorHeight,
     this.cursorRadius,
@@ -267,7 +268,7 @@ class TextEditor extends StatefulWidget {
   ///
   /// If non-null this property overrides the [decoration]'s
   /// [InputDecoration.enabled] property.
-  final bool? enabled;
+  final bool enabled;
 
   /// {@macro flutter.widgets.editableText.cursorWidth}
   final double cursorWidth;
