@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 class TextEditor extends StatefulWidget {
   /// Creates a new [TextEditor]
   const TextEditor({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.decoration = const InputDecoration(),
@@ -62,7 +62,7 @@ class TextEditor extends StatefulWidget {
     this.restorationId,
     this.cupertinoShowLabel = true,
     this.cupertinoAlignLabelOnTop = false,
-  }) : super(key: key);
+  });
 
   /// Controls the text being edited.
   ///
@@ -347,14 +347,14 @@ class TextEditor extends StatefulWidget {
   /// widget.
   ///
   /// If [mouseCursor] is a [MaterialStateProperty<MouseCursor>],
-  /// [MaterialStateProperty.resolve] is used for the following [MaterialState]s:
+  /// [WidgetStateProperty.resolve] is used for the following [WidgetState]s:
   ///
-  ///  * [MaterialState.error].
-  ///  * [MaterialState.hovered].
-  ///  * [MaterialState.focused].
-  ///  * [MaterialState.disabled].
+  ///  * [WidgetState.error].
+  ///  * [WidgetState.hovered].
+  ///  * [WidgetState.focused].
+  ///  * [WidgetState.disabled].
   ///
-  /// If this property is null, [MaterialStateMouseCursor.textable] will be used.
+  /// If this property is null, [WidgetStateMouseCursor.textable] will be used.
   ///
   /// The [mouseCursor] is the only property of [TextField] that controls the
   /// appearance of the mouse pointer. All other properties related to "cursor"

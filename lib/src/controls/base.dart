@@ -26,8 +26,7 @@ class TextEditorApiWidget extends InheritedWidget {
 
   /// Creates a new HtmlEditorApiWidget with the specified [editorApi] and [child]
   const TextEditorApiWidget(
-      {Key? key, required this.editorApi, required Widget child})
-      : super(key: key, child: child);
+      {super.key, required this.editorApi, required super.child});
 
   /// Retrieves the widget instance from the given [context].
   static TextEditorApiWidget? of(BuildContext context) {
@@ -54,14 +53,13 @@ class TextEditorControls extends StatefulWidget {
   /// You have to specify either the [editorApi] or the [editorKey].
   /// Optionally specify your own [prefix] and [suffix] widgets. These widgets can access the `HtmlEditorApi` by calling `HtmlEditorApiWidget.of(context)`, e.g. `final api = HtmlEditorApiWidget.of(context)!.editorApi;`
   const TextEditorControls({
-    Key? key,
+    super.key,
     this.editorApi,
     this.editorKey,
     this.prefix,
     this.suffix,
-  })  : assert(editorApi != null || editorKey != null,
-            'Please define either the editorApi or editorKey parameter.'),
-        super(key: key);
+  }) : assert(editorApi != null || editorKey != null,
+            'Please define either the editorApi or editorKey parameter.');
 
   @override
   State<TextEditorControls> createState() => _TextEditorControlsState();

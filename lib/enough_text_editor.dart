@@ -1,4 +1,4 @@
-library enough_text_editor;
+library;
 
 export 'src/controls/controls.dart';
 export 'src/editor.dart';

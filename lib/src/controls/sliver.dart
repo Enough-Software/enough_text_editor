@@ -36,7 +36,6 @@ class SliverHeaderTextEditorControls extends StatelessWidget {
 
 class _SliverHeaderTextEditorControlsDelegate
     extends SliverPersistentHeaderDelegate {
-  final double height;
   final GlobalKey<TextEditorState>? editorKey;
   final TextEditorApi? editorApi;
   final Widget? prefix;
@@ -47,7 +46,6 @@ class _SliverHeaderTextEditorControlsDelegate
     this.editorApi,
     this.prefix,
     this.suffix,
-    this.height = 48,
   });
 
   @override
@@ -64,10 +62,10 @@ class _SliverHeaderTextEditorControlsDelegate
   }
 
   @override
-  double get maxExtent => height;
+  double get maxExtent => kToolbarHeight;
 
   @override
-  double get minExtent => height;
+  double get minExtent => kToolbarHeight;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;

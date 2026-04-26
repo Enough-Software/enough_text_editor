@@ -1,15 +1,15 @@
+import 'package:enough_ascii_art/enough_ascii_art.dart';
 import 'package:enough_platform_widgets/enough_platform_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../editor_api.dart';
 import 'base.dart';
-import 'package:enough_ascii_art/enough_ascii_art.dart';
 
 /// Controls the font family name of the current / selected text.
 ///
 /// This widget depends on a [TextEditorApiWidget] in the widget tree.
 class FontFamilyDropdown extends StatefulWidget {
-  const FontFamilyDropdown({Key? key}) : super(key: key);
+  const FontFamilyDropdown({super.key});
 
   @override
   State<FontFamilyDropdown> createState() => _FontFamilyDropdownState();

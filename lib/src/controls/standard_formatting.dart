@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 ///
 /// This widget depends on a [TextEditorApiWidget] in the widget tree.
 class BaseFormatButtons extends StatefulWidget {
-  const BaseFormatButtons({Key? key}) : super(key: key);
+  const BaseFormatButtons({super.key});
 
   @override
   State<BaseFormatButtons> createState() => _BaseFormatButtonsState();

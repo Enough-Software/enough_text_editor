@@ -294,15 +294,15 @@ class TextEditor extends StatefulWidget {
   /// The cursor for a mouse pointer when it enters or is hovering over the
   /// widget.
   ///
-  /// If [mouseCursor] is a [MaterialStateProperty<MouseCursor>],
-  /// [MaterialStateProperty.resolve] is used for the following [MaterialState]s:
+  /// If [mouseCursor] is a [WidgetStateProperty<MouseCursor>],
+  /// [WidgetStateProperty.resolve] is used for the following [WidgetState]s:
   ///
-  ///  * [MaterialState.error].
-  ///  * [MaterialState.hovered].
-  ///  * [MaterialState.focused].
-  ///  * [MaterialState.disabled].
+  ///  * [WidgetState.error].
+  ///  * [WidgetState.hovered].
+  ///  * [WidgetState.focused].
+  ///  * [WidgetState.disabled].
   ///
-  /// If this property is null, [MaterialStateMouseCursor.textable] will be used.
+  /// If this property is null, [WidgetStateMouseCursor.textable] will be used.
   ///
   /// The [mouseCursor] is the only property of [TextField] that controls the
   /// appearance of the mouse pointer. All other properties related to "cursor"
@@ -420,7 +420,7 @@ class TextEditor extends StatefulWidget {
   /// You can define your own custom context / text selection menu entries
   /// using [textSelectionMenuItems].
   const TextEditor({
-    Key? key,
+    super.key,
     this.controller,
     this.initialContent = '',
     this.onCreated,
@@ -480,14 +480,15 @@ class TextEditor extends StatefulWidget {
     this.cupertinoShowLabel = true,
     this.cupertinoAlignLabelOnTop = true,
     this.cupertinoSuffixMode = OverlayVisibilityMode.editing,
-  }) : super(key: key);
+  });
 
   @override
   TextEditorState createState() => TextEditorState();
 }
 
 /// You can access the API by accessing the HtmlEditor's state.
-/// The editor state can be accessed directly when using a GlobalKey<HtmlEditorState>.
+/// The editor state can be accessed directly when using a
+/// GlobalKey of type HtmlEditorState.
 class TextEditorState extends State<TextEditor> {
   late TextEditingController _textEditingController;
   late TextEditorApi _api;
@@ -704,9 +705,9 @@ class FontSelector {
 
   static OverlayEntry buildOverlayEntry(
       BuildContext context, Function(UnicodeFont? font) callback) {
-    final viewInsets = EdgeInsets.fromWindowPadding(
-        WidgetsBinding.instance.window.viewInsets,
-        WidgetsBinding.instance.window.devicePixelRatio);
+    final view = View.of(context);
+    final viewInsets = EdgeInsets.fromViewPadding(
+        view.viewInsets, view.devicePixelRatio);
     final size = MediaQuery.of(context).size;
     const horizontalPadding = 36.0;
     const verticalPadding = 8.0;
@@ -753,9 +754,9 @@ class FontSelector {
 class UnicodeFontSelector extends StatelessWidget {
   final void Function(UnicodeFont font) onSelected;
   const UnicodeFontSelector({
-    Key? key,
+    super.key,
     required this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -777,7 +778,7 @@ class UnicodeFontSelector extends StatelessWidget {
 
 class PlatformMaterial extends StatelessWidget {
   const PlatformMaterial({
-    Key? key,
+    super.key,
     this.widgetKey,
     this.type = MaterialType.canvas,
     this.elevation = 0.0,
@@ -790,7 +791,7 @@ class PlatformMaterial extends StatelessWidget {
     this.clipBehavior = Clip.none,
     this.animationDuration = kThemeChangeDuration,
     this.child,
-  }) : super(key: key);
+  });
 
   final Key? widgetKey;
 
@@ -1057,9 +1058,9 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
         );
         return Transform(
           transform: Matrix4.identity()
-            ..translate(desiredSize.width / 2, desiredSize.height / 2)
+            ..translateByDouble(desiredSize.width / 2, desiredSize.height / 2, 0, 1)
             ..rotateZ(pi)
-            ..translate(-desiredSize.width / 2, -desiredSize.height / 2),
+            ..translateByDouble(-desiredSize.width / 2, -desiredSize.height / 2, 0, 1),
           child: handle,
         );
       // iOS doesn't draw anything for collapsed selections.
@@ -1105,12 +1106,11 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
   }
 }
 
-// TODO(justinmc): Deprecate this after TextSelectionControls.buildToolbar is
-// deleted, when users should migrate back to cupertinoTextSelectionControls.
-// See https://github.com/flutter/flutter/pull/124262
+// TODO(justinmc): This was previously using CupertinoTextSelectionHandleControls,
+// migrated to CupertinoTextSelectionControls per deprecation notice.
 /// Text selection handle controls that follow iOS design conventions.
 final TextSelectionControls cupertinoTextSelectionHandleControls =
-    CupertinoTextSelectionHandleControls();
+    CupertinoTextSelectionControls();
 
 /// Text selection controls that follow iOS design conventions.
 final TextSelectionControls cupertinoTextSelectionControls =

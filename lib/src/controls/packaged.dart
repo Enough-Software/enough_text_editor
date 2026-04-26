@@ -29,7 +29,7 @@ class PackagedTextEditor extends StatefulWidget {
   ///
   /// You can define your own custom context / text selection menu entries using [textSelectionMenuItems].
   const PackagedTextEditor({
-    Key? key,
+    super.key,
     this.controller,
     this.initialContent = '',
     this.onCreated,
@@ -89,7 +89,7 @@ class PackagedTextEditor extends StatefulWidget {
     this.cupertinoShowLabel = true,
     this.cupertinoAlignLabelOnTop = true,
     this.cupertinoSuffixMode = OverlayVisibilityMode.editing,
-  }) : super(key: key);
+  });
 
   /// Controls the text being edited.
   ///
@@ -371,14 +371,14 @@ class PackagedTextEditor extends StatefulWidget {
   /// widget.
   ///
   /// If [mouseCursor] is a [MaterialStateProperty<MouseCursor>],
-  /// [MaterialStateProperty.resolve] is used for the following [MaterialState]s:
+  /// [WidgetStateProperty.resolve] is used for the following [WidgetState]s:
   ///
-  ///  * [MaterialState.error].
-  ///  * [MaterialState.hovered].
-  ///  * [MaterialState.focused].
-  ///  * [MaterialState.disabled].
+  ///  * [WidgetState.error].
+  ///  * [WidgetState.hovered].
+  ///  * [WidgetState.focused].
+  ///  * [WidgetState.disabled].
   ///
-  /// If this property is null, [MaterialStateMouseCursor.textable] will be used.
+  /// If this property is null, [WidgetStateMouseCursor.textable] will be used.
   ///
   /// The [mouseCursor] is the only property of [TextField] that controls the
   /// appearance of the mouse pointer. All other properties related to "cursor"
